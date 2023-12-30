@@ -24,36 +24,7 @@ function Episodes() {
             }
         }
 
-        async function editDB() {
-            const { err } = await supabase
-                .from('favorites')
-                .delete()
-                .neq("id", 0)
-
-            const favObjects = store.getState().favs.favs
-
-            const { } = await supabase
-                .from('favorites')
-                .insert(favObjects.map(obj => ({ object: obj })));
-
-            const { data, error } = await supabase
-                .from('favorites')
-                .select()
-
-            console.log(data)
-            store.dispatch(addFav(data.map(show => show.object)))
-        }
-
-        const unsubbscribe = store.subscribe(()=>{
-            console.log('subscribed')
-            editDB()
-        })
-
-        fetchData()
-
-        return () => {
-            unsubbscribe()
-        }
+        fetchData()    
     }, []);
 
     return (

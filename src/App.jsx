@@ -3,7 +3,7 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 import './index.css'
 
 // Loaders
-import { previewsLoader } from './pages/previews'
+// import { previewsLoader } from './pages/previews'
 // import { showLoader } from './pages/PrevDetails'
 
 // Layouts
@@ -15,6 +15,10 @@ import Previews from './pages/previews'
 import PrevDetails from './pages/PrevDetails'
 import Episodes from './pages/Episodes'
 
+import Favorites from './pages/Favorites'
+import FavDetails from './pages/FavDetails'
+import FavEpisodes from './pages/FavEpisodes'
+
 function App() {
 
   const router = useCallback(createBrowserRouter(
@@ -23,14 +27,21 @@ function App() {
         <Route 
           index 
           element={<Previews/>} 
-          loader={previewsLoader}
         />
         
+        <Route
+          path='favorites'
+          element={<Favorites/>}
+        />
+        <Route path='favorites/:id' element={<SeasonsLayout/>} >
+          <Route index element={<FavDetails/>}/>
+          <Route path=':season' element={<FavEpisodes/>}/>
+        </Route>
+
         <Route path=':id' element={<SeasonsLayout/>} >
           <Route index element={<PrevDetails/>}/>
           <Route path=':season' element={<Episodes/>}/>
         </Route>
-
       </Route>
     )
   ),[])

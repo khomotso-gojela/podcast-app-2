@@ -1,8 +1,10 @@
 import { NavLink  } from "react-router-dom"
 import { store } from "../main"
 import { addFav } from "../redux/favsSlice"
+import { LazyLoadImage } from "react-lazy-load-image-component"
 
-let favs = []
+// console.log(store || 'no store')
+// let favs = store? store.getState().favs.favs : []
 
 
 function createPrev(array) {
@@ -23,7 +25,7 @@ function createPrev(array) {
                 <NavLink to={newprev.id} > 
                     <div className="card" >
                         <div className="card-image" >
-                            <img className="preview-image" width={'50%'} orientation="top" src={newprev.image} />
+                            <LazyLoadImage effect="blur" placeholderSrc={newprev.image} loading="lazy" className="preview-image" width={'50%'} orientation="top" src={newprev.image} />
                         </div>
                         <div className="card-body">
                             <h5>{newprev.title}</h5>
@@ -32,7 +34,7 @@ function createPrev(array) {
                                 <br/>
                                 Last updated: {new Date(newprev.updated).toUTCString()}                            
                                 <br />
-                                {/* Genres: {newprev.genres? showGenres(newprev.genres) : ''}                             */}
+                                {/* Genres: {newprev.genres? showGenres(newprev.genres) : ''}*/}
                             </p>
                         </div>
                     </div>
@@ -56,7 +58,7 @@ function createSeasons(array) {
             <div key={index} className="season-block">
                 <NavLink to={`${season.season}`}>
                     <div className="season-image">
-                        <img src={season.image} alt={'season cover'} />
+                        <img loading="lazy" src={season.image} alt={'season cover'} />
                     </div>
                     <div className="season-text">
                         <h5>{season.title}</h5>
@@ -81,7 +83,7 @@ function createEpisodes(show,season,array) {
                 <div className="episode-title">
                     {epi.title}
                 </div>
-                <button className="fav-episode" onClick={() => setFav(favs,show,season,index)}>
+                <button className="fav-episode" onClick={() => setFav(store.getState().favs.favs,show,season,index)}>
                     star
                 </button>
             </div>
@@ -94,16 +96,17 @@ function createEpisodes(show,season,array) {
 
 function setFav(storeArray,showObj,si,ei) {
 
-    let episode = showObj.seasons[si].episodes[ei]
-    let season = {...showObj.seasons[si],episodes:[{...episode}]}
+    let episode = showObj.seasons.filter(item => item.season == si+1)[0].episodes[ei]
+    let season = {...showObj.seasons.filter(item => item.season == si+1)[0],episodes:[{...episode}]}
     let newShow = {...showObj,seasons:[{...season}]}
     let show = ''
+    let newArray = []
 
     const bool = storeArray.some(show => show.id == newShow.id)
 
     if (bool) {
         // map and edit shows
-        const newArray = storeArray.map(favShow => {
+        newArray = storeArray.map(favShow => {
             if (favShow.id == newShow.id) {
                 let s = favShow.seasons.filter(item => item.season == si+1)[0]
                 // edit seasons
@@ -139,8 +142,10 @@ function setFav(storeArray,showObj,si,ei) {
                     }
                     
                 } else {
-                    show = favShow
-                    show.seasons = [...show.seasons,season]
+                    // show = favShow
+                    // show.seasons = [...show.seasons,season]
+                    console.log(show)
+                    show = {...favShow,seasons:[...show.seasons,season]}
                 }
                 
                 return show
@@ -149,15 +154,16 @@ function setFav(storeArray,showObj,si,ei) {
             }
         })
 
-        favs = newArray
+        // favs = newArray
 
     } else {
         
-        favs = [ ...storeArray, newShow ]
+        // favs = [ ...storeArray, newShow ]
+        newArray = [ ...storeArray, newShow ]
 
     }
-    console.log(favs)
-    store.dispatch(addFav(strip(favs)))
+    console.log(newArray)
+    store.dispatch(addFav(strip(newArray)))
 }
 
 function strip(array) {

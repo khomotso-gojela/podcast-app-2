@@ -1,7 +1,36 @@
-import React from 'react'
+import { useState,useEffect } from 'react';
 import { NavLink, Outlet } from 'react-router-dom'
+import { store } from '../main';
+import supabase from '../client';
 
 function HomePageLayout() {
+
+    useEffect(() => {
+        
+        async function editDB() {
+            const { err } = await supabase
+                .from('favorites')
+                .delete()
+                .neq("id", 0)
+
+            const favObjects = store.getState().favs.favs
+
+            const { } = await supabase
+                .from('favorites')
+                .insert(favObjects.map(obj => ({ object: obj })));            
+        }
+
+        const unsubbscribe = store.subscribe(()=>{
+            console.log('subscribed')
+            editDB()
+        })
+
+        return () => {
+            unsubbscribe()
+        }
+        
+    }, []);
+
   return (
     <div className='home'>
         <div className="hp-nav">
