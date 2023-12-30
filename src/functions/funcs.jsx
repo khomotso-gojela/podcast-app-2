@@ -1,6 +1,6 @@
 import { NavLink  } from "react-router-dom"
 import { store } from "../main"
-import { addFav } from "../redux/favsSlice"
+import { addFav, setPlaying, addHis } from "../redux/favsSlice"
 import { LazyLoadImage } from "react-lazy-load-image-component"
 
 // console.log(store || 'no store')
@@ -95,7 +95,8 @@ function createEpisodes(show,season,array) {
 }
 
 function play(episode) {
-    
+    store.dispatch(setPlaying(episode.title))
+    store.dispatch(addHis(episode.title))
 }
 
 function setFav(storeArray,showObj,si,ei) {

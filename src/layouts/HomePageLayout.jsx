@@ -22,7 +22,6 @@ function HomePageLayout() {
         }
 
         const unsubbscribe = store.subscribe(()=>{
-            console.log('subscribed')
             editDB()
         })
 

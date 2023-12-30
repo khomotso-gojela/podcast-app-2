@@ -1,9 +1,19 @@
-import React, { useRef, useState } from 'react'
+import { useRef, useState,useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { store } from '../main'
+import { resetHis } from '../redux/favsSlice'
 
 function Player() {
     const audioEle = useRef()
-    const [playing , setPlaying ] = useState(null)
     const [time,setTime] = useState(0)
+    const playing = useSelector((state) => state.favs.playing)
+
+    useEffect(() => {
+        audioEle.current.currentTime = 0
+        playing? audioEle.current.play(): audioEle.current.pause()
+
+        
+    }, [playing]);
 
     function handlePro(e) {
         audioEle.current.paused ? audioEle.current.play() : audioEle.current.pause()
@@ -11,13 +21,8 @@ function Player() {
     }
 
     function handlePlay(e) {
-        console.log(e.target.currentTime/e.target.duration * 100)
         let t = e.target.currentTime/e.target.duration * 100
         setTime(t)
-    }
-
-    function handleLoad() {
-        audioEle.current.play()
     }
 
   return (
@@ -26,7 +31,6 @@ function Player() {
             onTimeUpdate={(e) => handlePlay(e)} 
             src='https://podcast-api.netlify.app/placeholder-audio.mp3' 
             ref={audioEle}
-            onLoad={handleLoad}
         />
         <div className='player-container'>
             <div className="controls">
@@ -37,8 +41,8 @@ function Player() {
             <div className="progress" onClick={(e) => handlePro(e)}>
                 <div className="p-bar" style={{'--progressbar':`${time}%`}}></div>
             </div>
-            <div className="song-name"></div>
-            <button className='reset-btn'>Reset</button>
+            <div className="song-name">{playing}</div>
+            <button onClick={() => store.dispatch(resetHis())} className='reset-btn'>Reset</button>
         </div>
         
 
