@@ -77,7 +77,7 @@ function createEpisodes(show,season,array) {
     const episodes = array? array.map((epi,index) => {
         return (
             <div key={index} className="episode-block">
-                <div className="play">
+                <div className="play" onClick={() => play(epi)}>
                     Play |
                 </div>
                 <div className="episode-title">
@@ -92,6 +92,10 @@ function createEpisodes(show,season,array) {
 
     return episodes
 
+}
+
+function play(episode) {
+    
 }
 
 function setFav(storeArray,showObj,si,ei) {

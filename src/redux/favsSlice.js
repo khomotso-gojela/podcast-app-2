@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    favs:[]
+    favs:[],
+    history: []
 }
 
 const favsSlice = createSlice({
@@ -12,6 +13,8 @@ const favsSlice = createSlice({
             console.log(action.payload)
             state.favs = [...action.payload]
         },
+        addHis: (state,action) => state.history.push(action.payload),
+        resetHis: (state) => state.history = []
     }
 })
 

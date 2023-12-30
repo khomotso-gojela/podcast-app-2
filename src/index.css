@@ -13,6 +13,7 @@
   --secondary: black;
   --themecolor: white;
   --wpadding: 0 20px;
+  --progressbar: 20%
 }
 
 body {
@@ -221,6 +222,57 @@ padding: 10px;
 
 .hp-player {
   grid-area: 'homePlayer';
-  background-color: var(--accent);
+  background-color: black;  
+}
 
+.player-container {
+  color: white;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 20% 30% 30% 20% ;
+  grid-template-rows: 60% 40%;
+  grid-template-areas: 
+  "a controls name b"
+  "c progres d";
+}
+/* Controls */
+.controls {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  grid-area: 1/2/2/3;
+}
+.controls div {
+  cursor: pointer;
+}
+
+/* Progress bar */
+.progress { 
+  width: 70%;
+  height: 4px;
+  grid-area: 2/2/3/4;
+  border: 1px solid blue;
+  border-radius: 20px;
+  cursor: pointer;
+
+}
+
+.p-bar {
+  height: inherit;
+  width: var(--progressbar);
+  background-color: red;
+}
+
+/* song name */
+.name { 
+  grid-area: name; }
+
+/* reset player */
+.reset-btn {
+  grid-area: 1/4/2/5;
+  border-radius: 1.2rem;
+  margin: 5px;
+  background-color: gray;
 }

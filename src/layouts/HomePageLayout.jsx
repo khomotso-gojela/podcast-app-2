@@ -2,6 +2,7 @@ import { useState,useEffect } from 'react';
 import { NavLink, Outlet } from 'react-router-dom'
 import { store } from '../main';
 import supabase from '../client';
+import Player from '../pages/Player';
 
 function HomePageLayout() {
 
@@ -65,7 +66,7 @@ function HomePageLayout() {
             <Outlet />
         </div>
         <div className="hp-player">
-
+            <Player />
         </div>
     </div>
   )
