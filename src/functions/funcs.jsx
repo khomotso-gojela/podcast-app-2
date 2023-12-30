@@ -1,4 +1,8 @@
 import { NavLink  } from "react-router-dom"
+import { store } from "../main"
+import { addFav } from "../redux/favsSlice"
+let favs = []
+
 
 function createPrev(array) {
 
@@ -76,7 +80,7 @@ function createEpisodes(show,season,array) {
                 <div className="episode-title">
                     {epi.title}
                 </div>
-                <button className="fav-episode" onClick={() => setFav(show,season,index)}>
+                <button className="fav-episode" onClick={() => setFav(favs,show,season,index)}>
                     star
                 </button>
             </div>
@@ -87,14 +91,69 @@ function createEpisodes(show,season,array) {
 
 }
 
-function setFav(showObj,showSeason,epiNum) {
+function setFav(storeArray,showObj,si,ei) {
 
-    let episode = showObj.seasons[showSeason].episodes[epiNum]
-    let season = {...showObj.seasons[showSeason],episodes:[{...episode}]}
-    let show = {...showObj,seasons:[{...season}]}
+    let episode = showObj.seasons[si].episodes[ei]
+    let season = {...showObj.seasons[si],episodes:[{...episode}]}
+    let newShow = {...showObj,seasons:[{...season}]}
+    let show = ''
 
-    console.log(show)
+    const bool = storeArray.some(show => show.id == newShow.id)
 
+    if (bool) {
+        // map and edit shows
+        const newArray = storeArray.map(favShow => {
+            if (favShow.id == newShow.id) {
+                let s = favShow.seasons.filter(item => item.season == si+1)[0]
+                // edit seasons
+                if (favShow.seasons.some(item => item.season == season.season)) {
+                    // edit episodes of season
+                    if (s.episodes.some(item => item.title == episode.title)) {
+                        // deleting episode if it exists
+                        show = favShow
+                        show.seasons = show.seasons.map(seas => {
+                            if (seas.season == si+1) {
+                                const news = seas
+                                news.episodes = [...news.episodes.filter(item => item.title != episode.title)]
+                                return news
+                            } else {
+                                return seas
+                            }
+                        })
+                    
+                    } else {
+                        // adding new episode
+                        show = favShow
+                        show.seasons = show.seasons.map(seas => {
+                            if (seas.season == si+1) {
+                                const news = seas
+                                news.episodes = [...news.episodes,episode]
+                                return news
+                            } else {
+                                return seas
+                            }
+                        })                        
+                    }
+                    
+                } else {
+                    show = favShow
+                    show.seasons = [...show.seasons,season]
+                }
+                
+                return show
+            } else {
+                return favShow
+            }
+        })
+
+        favs = newArray
+
+    } else {
+        
+        favs = [ ...storeArray, newShow ]
+
+    }
+    store.dispatch(addFav(favs))
 }
 
 export { createPrev, createSeasons,createEpisodes, setFav }

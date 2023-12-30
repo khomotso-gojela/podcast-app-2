@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 import favsSlice from './redux/favsSlice.js'
 
-const store = configureStore({
+export const store = configureStore({
     reducer: {
         favs:favsSlice
     }

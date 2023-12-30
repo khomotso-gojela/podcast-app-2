@@ -8,7 +8,7 @@ const favsSlice = createSlice({
     name:'favs',
     initialState,
     reducers: {
-        addFav: () => console.log('adding'),
+        addFav: (payload) => console.log(payload),
     }
 })
 
