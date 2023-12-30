@@ -1,51 +1,8 @@
-import { MongoClient } from "mongodb";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-    const uri = 'mongodb+srv://myAtlasDBUser:motso123@myatlasclusteredu.isls5fi.mongodb.net/?retryWrites=true&w=majority'
-    const client = new MongoClient(uri)
+const supabase = new SupabaseClient(
+    'https://txpemvuqgyynqtsyptgn.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4cGVtdnVxZ3l5bnF0c3lwdGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDExOTkxMjMsImV4cCI6MjAxNjc3NTEyM30.WSYqy--KE4P5lKye2gvxEmsOAEeWXIeyP6NylXCpAHg'
+    )
 
-    try {
-        await client.connect()
-    } catch (error) {
-        
-    } finally {
-        await client.close()
-    }
-
-
-async function getFavs(client) {
-
-    try {
-        await client.connect()
-        const result = await client.db('mocast').collection('favs').findOne()        
-    } catch (error) {
-    } finally {
-        await client.close()
-    }
-    if (!result) console.log("couldn't get favs data")
-}
-
-async function insertFav(client,doc) {
-    try {
-        await client.connect()
-        const result = await client.db('mocast').collection('favs').insertOne(doc)
-    } catch (error) {
-        
-    } finally {
-        await client.close()
-    }
-    if (!result) console.log("couldn't set favs data")
-}
-
-async function deleteFavs(client) {
-    try {
-        await client.connect()
-        const result = await client.db('mocast').collection('favs').deleteOne()
-    } catch (error) {
-        
-    } finally {
-        await client.close()
-    }
-    if (!result) console.log("couldn't update favs data")
-}
-
-export { insertFav, getFavs, deleteFavs}
+export default supabase
