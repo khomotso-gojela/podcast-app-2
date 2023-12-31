@@ -38,21 +38,22 @@ function HomePageLayout() {
                 <h3>MoCasts</h3>
             </div>
             <div className="space"></div>
-            <div className="links">
+
+            <div className="row links">
                 
-                <NavLink to={'/'}>                    
+                <NavLink className='col' to={'/'}>                    
                     <div className="link">
                         <div className="a">All
                         </div>
                     </div>
                 </NavLink>
-                <NavLink to={'favorites'}>
+                <NavLink className='col' to={'favorites'}>
                     <div className="link">
                         <div className="a">Favorites
                         </div>
                     </div>
                 </NavLink>
-                <NavLink to={'logout'}>
+                <NavLink className='col' to={'logout'}>
                     <div className="link">
                         <div className="a">Log out
                         </div>

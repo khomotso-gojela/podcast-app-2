@@ -20,7 +20,7 @@ const favsSlice = createSlice({
             
         },
         addHis: (state,action) => {
-            state.history.push(action.payload)
+            state.history = [...state.history,...action.payload]
             if (state.history.length > 5) {
                 state.history.shift()
             }

@@ -2,7 +2,7 @@ import { useEffect, useState,useCallback } from "react"
 import { createPrev } from "../functions/funcs"
 import { store } from "../main";
 import supabase from "../client";
-import { addFav } from "../redux/favsSlice";
+import { addFav, addHis } from "../redux/favsSlice";
 
 function Favorites() {
     const [ favorites, setFavorites ] = useState([])
@@ -10,11 +10,15 @@ function Favorites() {
     const previewsLoader = useCallback(async function () {
         try {
                  
-          const { data, error } = await supabase
+          const favs = await supabase
           .from('favorites')
           .select()
+          const hist = await supabase
+          .from('history')
+          .select()
           
-          store.dispatch(addFav(data.map(show => show.object)))
+          store.dispatch(addFav(favs.data.map(show => show.object)))
+          store.dispatch(addHis(hist.data.map(show => show.hist)))
           setFavorites(() => createPrev(data.map(show => show.object)))
           
         } catch(err) {
@@ -28,7 +32,7 @@ function Favorites() {
     }, []); 
 
   return (
-    <div className="container">
+    <div className="body-container">
         <h3 className="center-align"> All favorites</h3>
         <div className="previews-container">{favorites}</div>    
     </div>    

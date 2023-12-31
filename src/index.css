@@ -25,6 +25,7 @@ body {
 /* HomeLayout */
 
 .home {
+  overflow: hidden;
   height: 100vh;
   width: 100%;
   display: grid;
@@ -106,14 +107,11 @@ a {
 
 .previews-container {
   width: 100%;
-  display: grid;
-  grid-template-columns: 30% 30% 30%;
-  grid-template-rows: auto;
   gap: 20px;
   align-items: center;
 }
 
-.container {
+.body-container {
   padding: 0 30px;
 }
 
@@ -159,7 +157,7 @@ padding: 10px;
   padding-left: 7%;
 }
 .season-block {
-  border-bottom: 2px solid var(--dominant);
+  border: 1px solid black;
 }
 .season-image img {
   width: 40%;
@@ -187,15 +185,12 @@ padding: 10px;
   overflow-y: auto;
   overflow-x: hidden;
   width: 70vw;
-  border-radius: 10px;
   margin: 0 30px;
-  border: 2px solid var(--dominant);
 }
 .seasons-container::-webkit-scrollbar {
   width:0;
   height: 0;
 }
-
 
 .seasons-nav {
   background-color: var(--accent);
@@ -210,12 +205,34 @@ padding: 10px;
   grid-area: 'seasons-body';
 }
 
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30%;
+}
+
+.row {
+  padding: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+.row>* {
+  padding: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 /* Episode details */
 
 .episode-block {
   display: flex;
   flex-direction: row;
   gap: 20px;
+  border: 1px solid #8a0707;
+  margin: 1rem;
+  padding-left: 1rem;
+  border-radius: .5rem;
 }
 
 /* Player */
@@ -230,11 +247,9 @@ padding: 10px;
   height: 100%;
   width: 100%;
   display: grid;
-  grid-template-columns: 20% 20% 40% 20% ;
+  grid-template-columns: 1fr ;
   grid-template-rows: 60% 40%;
-  grid-template-areas: 
-  "a controls name b"
-  "c progres d";
+  grid-area: 'a' 'b';
 }
 /* Controls */
 .controls {
@@ -242,7 +257,8 @@ padding: 10px;
   flex-direction: row;
   gap: 20px;
   align-items: center;
-  grid-area: 1/2/2/3;
+  justify-content: center;
+  grid-area: 1/1/2/2;
 }
 .controls div {
   cursor: pointer;
@@ -250,13 +266,11 @@ padding: 10px;
 
 /* Progress bar */
 .progress { 
-  width: 70%;
+  width: 30%;
   height: 4px;
-  grid-area: 2/2/3/4;
-  border: 1px solid blue;
+  border: 1px solid rgb(100, 100, 100);
   border-radius: 20px;
   cursor: pointer;
-
 }
 
 .p-bar {
@@ -269,14 +283,73 @@ padding: 10px;
 .song-name { 
   margin: 5px;
   overflow: hidden;
-  grid-area: 1/3/2/4 ;
 
 }
 
 /* reset player */
 .reset-btn {
-  grid-area: 1/4/2/5;
-  border-radius: 1.2rem;
-  margin: 5px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  grid-area: 2/1/3/2;
+
+}
+
+.history-btn {
+  width: fit-content;
+  border-radius: .5rem;
+  background-color: transparent;
+}
+.history-btn svg {
+  height: 0.8rem;
+  width: 0.8rem;
+  color:white;
+}
+.btn-primary {
+  --cui-btn-color: rgb(0, 0, 0);
+  --cui-btn-bg: #321fdb;
+  --cui-btn-border-color: #db1f1f;
+  --cui-btn-hover-color: rgba(255, 255, 255, 0.87);
+  --cui-btn-hover-bg: #680000;
+  --cui-btn-hover-border-color: #df3535;
+  --cui-btn-focus-shadow-rgb: 75,58,223;
+  --cui-btn-active-color: rgba(255, 255, 255, 0.87);
+  --cui-btn-active-bg: #e24c4c;
+  --cui-btn-active-border-color: #4735df;
+  --cui-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 21, 0.125);
+  --cui-btn-disabled-color: rgba(255, 255, 255, 0.87);
+  --cui-btn-disabled-bg: #321fdb;
+  --cui-btn-disabled-border-color: #321fdb;
+}
+
+input {
   background-color: gray;
+  border-radius: 0.5rem;
+}
+input::placeholder {
+  color: whitesmoke;
+}
+
+select {
+  color: whitesmoke;
+  background-color: gray;
+  border-radius: 0.5rem;
+}
+
+.modal-content {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  color: white;
+  pointer-events: auto;
+  background-color: black;
+  background-clip: padding-box;
+  border: var(--cui-modal-border-width) solid var(--cui-modal-border-color);
+  border-radius: var(--cui-modal-border-radius);
+  outline: 0;
 }

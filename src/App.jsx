@@ -1,10 +1,7 @@
 import { useCallback, useState } from 'react'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
+import './styles/dist/css/coreui.min.css'
 import './index.css'
-
-// Loaders
-// import { previewsLoader } from './pages/previews'
-// import { showLoader } from './pages/PrevDetails'
 
 // Layouts
 import HomePageLayout from './layouts/HomePageLayout'

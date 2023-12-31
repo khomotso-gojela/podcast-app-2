@@ -1,9 +1,7 @@
 import { useState,useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { createEpisodes } from '../functions/funcs'
-import { store } from '../main'
-import supabase from '../client'
-import { addFav } from '../redux/favsSlice'
+import Loader from '../components.jsx/loader'
 
 function Episodes() {
     const params = useParams()
@@ -30,7 +28,9 @@ function Episodes() {
     return (
    
     <>
-        {show? createEpisodes(show,params.season - 1,show.seasons[params.season - 1].episodes): 'Loading...'}
+        {show? createEpisodes(show,params.season - 1,show.seasons[params.season - 1].episodes):
+         <Loader/>
+         }
     </>
   
     )

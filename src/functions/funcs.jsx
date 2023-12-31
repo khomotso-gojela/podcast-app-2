@@ -2,10 +2,8 @@ import { NavLink  } from "react-router-dom"
 import { store } from "../main"
 import { addFav, setPlaying, addHis } from "../redux/favsSlice"
 import { LazyLoadImage } from "react-lazy-load-image-component"
-
-// console.log(store || 'no store')
-// let favs = store? store.getState().favs.favs : []
-
+import Fuse from "fuse.js"
+import { FaHeartCirclePlus, FaPlay } from "react-icons/fa6"
 
 function createPrev(array) {
 
@@ -21,11 +19,11 @@ function createPrev(array) {
 
         return (
             
-            <div className='prev-card' style={{backgroundImage: 'url(' + newprev.image + ')'}} key={newprev.id}>
+            <div className='col prev-card' style={{backgroundImage: 'url(' + newprev.image + ')'}} key={newprev.id}>
                 <NavLink to={newprev.id} > 
                     <div className="card" >
                         <div className="card-image" >
-                            <LazyLoadImage effect="blur" placeholderSrc={newprev.image} loading="lazy" className="preview-image" width={'50%'} orientation="top" src={newprev.image} />
+                            <LazyLoadImage effect="blur" placeholderSrc={newprev.image} className="preview-image" width={'50%'} orientation="top" src={newprev.image} />
                         </div>
                         <div className="card-body">
                             <h5>{newprev.title}</h5>
@@ -72,20 +70,21 @@ function createSeasons(array) {
     return seasons
 
 }
+
 function createEpisodes(show,season,array) {
 
     const episodes = array? array.map((epi,index) => {
         return (
             <div key={index} className="episode-block">
-                <div className="play" onClick={() => play(epi)}>
-                    Play |
+                <div style={{cursor:'pointer'}} className="play" onClick={() => play(epi)}>
+                    <FaPlay/>
                 </div>
                 <div className="episode-title">
                     {epi.title}
                 </div>
-                <button className="fav-episode" onClick={() => setFav(store.getState().favs.favs,show,season,index)}>
-                    star
-                </button>
+                <div style={{cursor:'pointer'}} className="fav-episode" onClick={() => setFav(store.getState().favs.favs,show,season,index)}>
+                    <FaHeartCirclePlus className="heart" fill="white"/>
+                </div>
             </div>
         )
     }): []
@@ -96,7 +95,7 @@ function createEpisodes(show,season,array) {
 
 function play(episode) {
     store.dispatch(setPlaying(episode.title))
-    store.dispatch(addHis(episode.title))
+    store.dispatch(addHis([episode.title]))
 }
 
 function setFav(storeArray,showObj,si,ei) {
@@ -181,4 +180,81 @@ function strip(array) {
     return newArray.filter(item => item.seasons.length > 0)
 }
 
-export { createPrev, createSeasons,createEpisodes, setFav }
+function searchArray(array,searchPattern) {
+  
+
+    if (searchPattern.trim() === '') {
+        return array;
+    }
+    if (!array) {
+        return array;
+    }
+
+    const fuseOptions = {
+
+        keys: [
+            "title"
+        ]
+    };
+    
+    const fuse = new Fuse(array, fuseOptions);
+    
+   
+    return fuse.search(searchPattern)
+    return array
+
+}
+
+function sortArray(Array, sort) {
+    
+    const newArray = Array  
+    
+    switch(sort){
+        case 'none':
+            return newArray
+
+        case 'A-Z':
+            newArray.sort((a, b) => {
+               
+                const titleA = a.title.toLowerCase();
+                const titleB = b.title.toLowerCase();
+              
+                // Compare names
+                if (titleA < titleB) return -1;
+                if (titleA > titleB) return 1;
+                return 0;
+            });
+            
+            return newArray
+
+        case 'Z-A':
+            newArray.sort((a, b) => {
+                
+                const titleA = a.title.toLowerCase();
+                const titleB = b.title.toLowerCase();
+              
+                // Compare
+                if (titleA < titleB) return 1;
+                if (titleA > titleB) return -1;
+                return 0;
+            });
+            
+            return newArray
+        
+        case 'oldest':
+            newArray.sort((a, b) => new Date(a.updated) - new Date(b.updated));
+
+            return newArray
+
+        case 'latest':
+            newArray.sort((a, b) => new Date(b.updated) - new Date(a.updated));
+
+            return newArray
+
+        default:
+            return Array
+    }
+
+}
+
+export { createPrev, createSeasons,createEpisodes, setFav, searchArray, sortArray }
