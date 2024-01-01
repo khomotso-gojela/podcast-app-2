@@ -1,13 +1,16 @@
-import { useState,useEffect } from 'react';
-import { NavLink, Outlet } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import { NavLink, Outlet,Link } from 'react-router-dom'
 import { store } from '../main';
 import supabase from '../client';
 import Player from '../pages/Player';
+import { useNavigate } from 'react-router-dom';
 
 function HomePageLayout() {
+    const navigate = useNavigate()
 
     useEffect(() => {
         
+        // store functions
         async function editDB() {
             const { err } = await supabase
                 .from('favorites')
@@ -31,6 +34,14 @@ function HomePageLayout() {
         
     }, []);
 
+    function handleLogOut() {
+        sessionStorage.clear()
+        supabase.auth.signOut()
+        navigate('/')
+        location.reload();
+
+    }
+
   return (
     <div className='home'>
         <div className="hp-nav">
@@ -53,12 +64,12 @@ function HomePageLayout() {
                         </div>
                     </div>
                 </NavLink>
-                <NavLink className='col' to={'logout'}>
+                <Link onClick={handleLogOut} className='col' >
                     <div className="link">
                         <div className="a">Log out
                         </div>
                     </div>
-                </NavLink>
+                </Link>
             </div>
 
         </div>

@@ -19,7 +19,7 @@ function Favorites() {
           
           store.dispatch(addFav(favs.data.map(show => show.object)))
           store.dispatch(addHis(hist.data.map(show => show.hist)))
-          setFavorites(() => createPrev(data.map(show => show.object)))
+          setFavorites(() => createPrev(favs.data.map(show => show.object)))
           
         } catch(err) {
           console.log(err.message)
@@ -33,7 +33,7 @@ function Favorites() {
 
   return (
     <div className="body-container">
-        <h3 className="center-align"> All favorites</h3>
+        <h5 className="center-align"> All favorites</h5>
         <div className="previews-container">{favorites}</div>    
     </div>    
   )

@@ -118,14 +118,12 @@ a {
 .prev-card {
   color: white;
   max-width: fit-content;
-  border: 2px solid rgb(59, 0, 0);
-  border-radius: 1rem;
-  background-color: rgba(255, 0, 0, 0.596);
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 0.5rem;
+  background-color: transparent;
 }
-.prev-card a .card {
-  border-radius: 1rem;
-  backdrop-filter: blur(10%);
-  background-color: rgba(49, 0, 0, 0.61);
+.prev-card a .inner-card {
+  background-color: transparent;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -134,7 +132,7 @@ a {
 .prev-card a {
   color: white;
 }
-.prev-card a .card div:nth-child(2) {
+.prev-card a .inner-card div:nth-child(2) {
 padding: 10px;
 }
 .card-image {
@@ -142,8 +140,19 @@ padding: 10px;
   width: fit-content;
 }
 .card-image img {
-  border-radius: 1rem;
-  width: 200px;
+  border-radius: 0.5rem;
+  width: 14rem;
+}
+
+.card-body {
+  font-size: 1rem;
+  color:whitesmoke;
+  text-align: center;
+}
+.card-body p {
+  font-size: 0.7rem;
+  color:whitesmoke;
+  text-align: center;
 }
 
 /* season details */
@@ -352,4 +361,45 @@ select {
   border: var(--cui-modal-border-width) solid var(--cui-modal-border-color);
   border-radius: var(--cui-modal-border-radius);
   outline: 0;
+}
+
+.login-form {
+  width: 50vh;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  border: 1px double white;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-page {
+  height: 100vh;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url('./assets/herobg.jpg');
+}
+
+.login-btn {
+  margin-bottom: 1rem;
+  --cui-btn-bg:black;
+  --cui-btn-color:white;
+  --cui-btn-border-color:white
+}
+
+.login-form input{
+  background-color: rgb(255, 75, 75);
+}
+
+.login-title {
+  color: white;
+  margin: 1rem;
+  font-size: 2rem;
+}
+
+.login-form div > a:hover {
+  color: rgb(255, 113, 113);
 }

@@ -5,7 +5,8 @@ const initialState = {
     favs:[],
     history: [],
     playing: null,
-    lastPlayed: {}
+    lastPlayed: {},
+    token: false
 }
 
 const favsSlice = createSlice({
@@ -30,10 +31,12 @@ const favsSlice = createSlice({
             state.history = []
             state.playing = null
         },
-        handleLast: (state,action) => state.lastPlayed = action.payload, 
+        handleLast: (state,action) => state.lastPlayed = action.payload,
+        setTokenOn: (state) => state.token = true,
+        setTokenOff: (state) => state.token = false,
     }
 })
 
-export const { addFav, addHis, resetHis, setPlaying } = favsSlice.actions
+export const { addFav, addHis, resetHis, setPlaying,setTokenOff,setTokenOn } = favsSlice.actions
 
 export default favsSlice.reducer

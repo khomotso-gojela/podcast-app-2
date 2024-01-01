@@ -19,20 +19,20 @@ function createPrev(array) {
 
         return (
             
-            <div className='col prev-card' style={{backgroundImage: 'url(' + newprev.image + ')'}} key={newprev.id}>
+            <div className='col prev-card' key={newprev.id}>
                 <NavLink to={newprev.id} > 
-                    <div className="card" >
+                    <div className="inner-card" >
                         <div className="card-image" >
-                            <LazyLoadImage effect="blur" placeholderSrc={newprev.image} className="preview-image" width={'50%'} orientation="top" src={newprev.image} />
+                            <img  className="preview-image" width={'50%'} orientation="top" src={newprev.image} />
                         </div>
                         <div className="card-body">
-                            <h5>{newprev.title}</h5>
-                            <p style={{fontSize:'0.rem'}}>
-                                Seasons: {newprev.seasons? newprev.seasons.length :''}                        
+                            <div><b>{newprev.title}</b></div>
+                            <p>
+                                Seasons: {newprev.seasons}                        
                                 <br/>
                                 Last updated: {new Date(newprev.updated).toUTCString()}                            
                                 <br />
-                                {/* Genres: {newprev.genres? showGenres(newprev.genres) : ''}*/}
+                                Genres: {createGenres(newprev.genres)}
                             </p>
                         </div>
                     </div>
@@ -48,6 +48,27 @@ function createPrev(array) {
 return previews
 
 }
+
+function createGenres(genArray) {
+    const genres = [
+    "Personal Growth",
+	"True Crime and Investigative Journalism",
+	"History",
+	"Comedy",
+	"Entertainment",
+	"Business",
+	"Fiction",
+	"News",
+	"Kids and Family"
+    ]
+
+    const newArra = genArray? genArray.map((i,k) => {
+      
+        return k+1 < genArray.length? `${genres[i-1]}, `:`${genres[i-1]} `
+    }): []
+
+    return newArra
+} 
 
 function createSeasons(array) {
 
