@@ -25,15 +25,14 @@ function App() {
     // authentication
     let data = JSON.parse(sessionStorage.getItem('token'))
     data ? setToken(() => true): setToken(() => false)
-    console.log(data)
   }, []);
 
   const router = useCallback(createBrowserRouter(
     createRoutesFromElements(
-      !token?<Route  >
-        <Route index element={<LogIn/>}/>
-        <Route path='signup' element={<SignUp/>}/>
-      </Route> :
+      // !token?<Route  >
+      //   <Route index element={<LogIn/>}/>
+      //   <Route path='signup' element={<SignUp/>}/>
+      // </Route> :
       <Route path='/' element={<HomePageLayout/>} >
         <Route 
           index 

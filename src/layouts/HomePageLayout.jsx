@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { NavLink, Outlet,Link } from 'react-router-dom'
-import { store } from '../main';
 import supabase from '../client';
 import Player from '../pages/Player';
 import { useNavigate } from 'react-router-dom';
@@ -9,29 +8,7 @@ function HomePageLayout() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        
-        // store functions
-        async function editDB() {
-            const { err } = await supabase
-                .from('favorites')
-                .delete()
-                .neq("id", 0)
-
-            const favObjects = store.getState().favs.favs
-
-            const { } = await supabase
-                .from('favorites')
-                .insert(favObjects.map(obj => ({ object: obj })));            
-        }
-
-        const unsubbscribe = store.subscribe(()=>{
-            editDB()
-        })
-
-        return () => {
-            unsubbscribe()
-        }
-        
+    
     }, []);
 
     function handleLogOut() {

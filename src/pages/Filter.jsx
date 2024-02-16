@@ -10,7 +10,7 @@ function Filter(props) {
     }
 
   return (
-    <CRow className='filter-container '>
+    <CRow className='filter-container ' >
         <CCol sm='auto col-3'>
             <form>
                 <input 

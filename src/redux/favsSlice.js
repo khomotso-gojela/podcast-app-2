@@ -39,4 +39,7 @@ const favsSlice = createSlice({
 
 export const { addFav, addHis, resetHis, setPlaying,setTokenOff,setTokenOn } = favsSlice.actions
 
+export const allFavs = (state) => state.favs.favs
+export const allHistory = (state) => state.favs.history
+
 export default favsSlice.reducer

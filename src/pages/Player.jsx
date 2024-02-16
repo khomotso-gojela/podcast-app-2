@@ -5,12 +5,14 @@ import { resetHis } from '../redux/favsSlice'
 import supabase from '../client'
 import { CButton,CModal,CModalHeader,CModalTitle,CModalBody,CModalFooter } from '@coreui/react'
 import { FaBackward,FaPlayCircle, FaForward, FaHistory, FaTrash } from 'react-icons/fa'
+import { allHistory } from '../redux/favsSlice'
 
 function Player() {
     const audioEle = useRef()
     const [time,setTime] = useState(0)
     const playing = useSelector((state) => state.favs.playing)
     const [visible, setVisible] = useState(false)
+    const history = useSelector(allHistory)
 
     useEffect(() => {
         audioEle.current.currentTime = 0
@@ -64,7 +66,7 @@ function Player() {
                 <CModalTitle >History</CModalTitle>
             </CModalHeader>
             <CModalBody>
-                <div>{store.getState().favs.history.map(item => <p key={item}>{item}</p>)}</div>
+                <div>{history.map(item => <p key={item}>{item}</p>)}</div>
             </CModalBody>
             <CModalFooter>
                 <CButton color="secondary" onClick={() => setVisible(false)}>

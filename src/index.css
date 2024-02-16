@@ -94,6 +94,16 @@ a {
 }
 
   /* Body */
+
+  /* SHOWMORE BUTTON */
+  .showmore {
+    background-color: black;
+    color: white;
+    border-radius: .5rem;
+    padding: 10px;
+    margin: 20px 40vw;
+
+  }
   
   .hp-body {
     color: rgba(245, 245, 245, 0.842);
@@ -334,7 +344,7 @@ padding: 10px;
 }
 
 input {
-  background-color: gray;
+  background-color: rgb(170, 0, 0);
   border-radius: 0.5rem;
 }
 input::placeholder {
@@ -343,7 +353,7 @@ input::placeholder {
 
 select {
   color: whitesmoke;
-  background-color: gray;
+  background-color: rgb(170, 0, 0);
   border-radius: 0.5rem;
 }
 
@@ -402,4 +412,8 @@ select {
 
 .login-form div > a:hover {
   color: rgb(255, 113, 113);
+}
+
+.filter-container {
+  margin-top: 2rem
 }

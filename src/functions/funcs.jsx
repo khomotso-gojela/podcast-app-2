@@ -1,7 +1,6 @@
 import { NavLink  } from "react-router-dom"
 import { store } from "../main"
 import { addFav, setPlaying, addHis } from "../redux/favsSlice"
-import { LazyLoadImage } from "react-lazy-load-image-component"
 import Fuse from "fuse.js"
 import { FaHeartCirclePlus, FaPlay } from "react-icons/fa6"
 
@@ -44,6 +43,39 @@ function createPrev(array) {
     }) : []
 
 
+return previews
+
+}
+function createPrev2(array) {
+
+    let previews = array? array.map(prev => {     
+           
+
+        return (
+            
+            <div className='col prev-card' key={prev.id}>
+                <NavLink to={prev.id} > 
+                    <div className="inner-card" >
+                        <div className="card-image" >
+                            <img  className="preview-image" width={'50%'} orientation="top" src={prev.image} />
+                        </div>
+                        <div className="card-body">
+                            <div><b>{prev.title}</b></div>
+                            <p>
+                                Seasons: {prev.seasons.length}
+                                <br/>
+                                Last updated: {new Date(prev.updated).toUTCString()}                            
+                                <br />
+                                Genres: {createGenres(prev.genres)}
+                            </p>
+                        </div>
+                    </div>
+                </NavLink>
+                
+            </div>
+        )
+            
+    }) : []
 
 return previews
 
@@ -103,7 +135,9 @@ function createEpisodes(show,season,array) {
                 <div className="episode-title">
                     {epi.title}
                 </div>
-                <div style={{cursor:'pointer'}} className="fav-episode" onClick={() => setFav(store.getState().favs.favs,show,season,index)}>
+                <div style={{cursor:'pointer'}} className="fav-episode" onClick={() => {
+                    setFav(store.getState().favs.favs,show,season,index)
+                    }}>
                     <FaHeartCirclePlus className="heart" fill="white"/>
                 </div>
             </div>
@@ -187,7 +221,6 @@ function setFav(storeArray,showObj,si,ei) {
         newArray = [ ...storeArray, newShow ]
 
     }
-    console.log(newArray)
     store.dispatch(addFav(strip(newArray)))
 }
 
@@ -278,4 +311,4 @@ function sortArray(Array, sort) {
 
 }
 
-export { createPrev, createSeasons,createEpisodes, setFav, searchArray, sortArray }
+export { createPrev,createPrev2, createSeasons,createEpisodes, setFav, searchArray, sortArray }

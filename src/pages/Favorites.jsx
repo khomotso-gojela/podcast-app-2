@@ -1,40 +1,34 @@
 import { useEffect, useState,useCallback } from "react"
-import { createPrev } from "../functions/funcs"
-import { store } from "../main";
-import supabase from "../client";
-import { addFav, addHis } from "../redux/favsSlice";
+import { createPrev2, searchArray, sortArray } from "../functions/funcs"
+import Filter from "./Filter"
+import { allFavs } from "../redux/favsSlice";
+import { useSelector } from "react-redux";
 
 function Favorites() {
     const [ favorites, setFavorites ] = useState([])
+    const stateFavs = useSelector(allFavs)
+    const [sort, setSort] = useState('')
+    const [fSearch,setfSearch] = useState('')
 
     const previewsLoader = useCallback(async function () {
-        try {
-                 
-          const favs = await supabase
-          .from('favorites')
-          .select()
-          const hist = await supabase
-          .from('history')
-          .select()
-          
-          store.dispatch(addFav(favs.data.map(show => show.object)))
-          store.dispatch(addHis(hist.data.map(show => show.hist)))
-          setFavorites(() => createPrev(favs.data.map(show => show.object)))
-          
-        } catch(err) {
-          console.log(err.message)
-        }
-        
-      },[])
+   
+        console.log(stateFavs)
+        setFavorites(()=> stateFavs)
+      },[stateFavs])
 
     useEffect(() => {
         previewsLoader()
     }, []); 
 
+    function handleSort(text) {  
+      console.log(text)  
+      setSort(() => text)
+    }
+
   return (
     <div className="body-container">
-        <h5 className="center-align"> All favorites</h5>
-        <div className="previews-container">{favorites}</div>    
+        <Filter setText={setfSearch} setSort={handleSort} />
+        <div className="previews-container">{favorites? createPrev2(searchArray(sortArray(favorites,sort),fSearch)) : <Loader/>}</div>
     </div>    
   )
 }
