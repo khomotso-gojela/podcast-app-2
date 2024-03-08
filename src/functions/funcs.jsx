@@ -1,8 +1,9 @@
 import { NavLink  } from "react-router-dom"
 import { store } from "../main"
-import { addFav, setPlaying, addHis } from "../redux/favsSlice"
+import { addFav, setPlaying, addHis, fetchFavorites } from "../redux/favsSlice"
 import Fuse from "fuse.js"
-import { FaHeartCirclePlus, FaPlay } from "react-icons/fa6"
+import { FaHeart, FaHeartCirclePlus, FaPlay } from "react-icons/fa6"
+import phimage from '../assets/phimage.jpg'
 
 function createPrev(array) {
 
@@ -18,11 +19,11 @@ function createPrev(array) {
 
         return (
             
-            <div className='col prev-card' key={newprev.id}>
-                <NavLink to={newprev.id} > 
+            <div className='col s=3 prev-card' key={newprev._id}>
+                <NavLink to={newprev._id} > 
                     <div className="inner-card" >
                         <div className="card-image" >
-                            <img  className="preview-image" width={'50%'} orientation="top" src={newprev.image} />
+                            <img  className="preview-image" width={'50%'} orientation="top" src={newprev.image } />
                         </div>
                         <div className="card-body">
                             <div><b>{newprev.title}</b></div>
@@ -31,7 +32,7 @@ function createPrev(array) {
                                 <br/>
                                 Last updated: {new Date(newprev.updated).toUTCString()}                            
                                 <br />
-                                Genres: {createGenres(newprev.genres)}
+                                {createGenres(newprev.genres)}
                             </p>
                         </div>
                     </div>
@@ -53,11 +54,11 @@ function createPrev2(array) {
 
         return (
             
-            <div className='col prev-card' key={prev.id}>
-                <NavLink to={prev.id} > 
+            <div className='col prev-card' key={prev._id}>
+                <NavLink to={prev._id} > 
                     <div className="inner-card" >
                         <div className="card-image" >
-                            <img  className="preview-image" width={'50%'} orientation="top" src={prev.image} />
+                            <img  className="preview-image" width={'50%'} orientation="top" src={/*prev.image*/ phimage} />
                         </div>
                         <div className="card-body">
                             <div><b>{prev.title}</b></div>
@@ -109,7 +110,7 @@ function createSeasons(array) {
             <div key={index} className="season-block">
                 <NavLink to={`${season.season}`}>
                     <div className="season-image">
-                        <img loading="lazy" src={season.image} alt={'season cover'} />
+                        <img loading="lazy" src={/*season.image*/ phimage} alt={'season cover'} />
                     </div>
                     <div className="season-text">
                         <h5>{season.title}</h5>
@@ -126,6 +127,16 @@ function createSeasons(array) {
 
 function createEpisodes(show,season,array) {
 
+    // check if episodes are marked as favorite   
+    const allFavs = store.getState().favs.favs
+
+    const checkShow = allFavs.find(item => item._id == show._id)
+  
+    const checkSeason = checkShow? checkShow.seasons.find(item => item.season == season) : null
+   
+    const favEpisodes = checkSeason? checkSeason.episodes : []
+  
+
     const episodes = array? array.map((epi,index) => {
         return (
             <div key={index} className="episode-block">
@@ -136,16 +147,20 @@ function createEpisodes(show,season,array) {
                     {epi.title}
                 </div>
                 <div style={{cursor:'pointer'}} className="fav-episode" onClick={() => {
-                    setFav(store.getState().favs.favs,show,season,index)
+                    // setFav(store.getState().favs.favs,show,season,index)
+                    setFav2(show,season,epi)
                     }}>
-                    <FaHeartCirclePlus className="heart" fill="white"/>
+                        {
+                        favEpisodes.some(item => item.title == epi.title) ?
+                            <FaHeart className="heart" fill='red'/> :
+                            <FaHeartCirclePlus className="heart" fill="white"/>
+                        }
                 </div>
             </div>
         )
     }): []
 
     return episodes
-
 }
 
 function play(episode) {
@@ -153,85 +168,182 @@ function play(episode) {
     store.dispatch(addHis([episode.title]))
 }
 
-function setFav(storeArray,showObj,si,ei) {
-
-    let episode = showObj.seasons.filter(item => item.season == si+1)[0].episodes[ei]
-    let season = {...showObj.seasons.filter(item => item.season == si+1)[0],episodes:[{...episode}]}
-    let newShow = {...showObj,seasons:[{...season}]}
-    let show = ''
-    let newArray = []
-
-    const bool = storeArray.some(show => show.id == newShow.id)
-
-    if (bool) {
-        // map and edit shows
-        newArray = storeArray.map(favShow => {
-            if (favShow.id == newShow.id) {
-                let s = favShow.seasons.filter(item => item.season == si+1)[0]
-                // edit seasons
-                if (favShow.seasons.some(item => item.season == season.season)) {
-                    // edit episodes of season
-                    if (s.episodes.some(item => item.title == episode.title)) {
-                        // deleting episode if it exists
-                        show = favShow
-                        show = {...favShow,seasons: show.seasons.map(seas => {
-                            if (seas.season == si+1) {
-                                // const news = seas
-                                // news.episodes = [...news.episodes.filter(item => item.title != episode.title)]
-
-                                return {...seas,episodes:[...seas.episodes.filter(item => item.title != episode.title)]}
-                            } else {
-                                return seas
-                            }
-                        })}
-                    
-                    } else {
-                        // adding new episode
-                        show = favShow
-                        show = {...favShow,seasons: show.seasons.map(seas => {
-                            if (seas.season == si+1) {
-                                const news = seas
-
-                                // news.episodes = [...news.episodes,episode]
-                                return {...news,episodes:[...news.episodes,episode]}
-                            } else {
-                                return seas
-                            }
-                        })}                       
-                    }
-                    
-                } else {
-                    // show = favShow
-                    // show.seasons = [...show.seasons,season]
-                    console.log(show)
-                    show = {...favShow,seasons:[...show.seasons,season]}
-                }
-                
-                return show
-            } else {
-                return favShow
-            }
-        })
-
-        // favs = newArray
-
-    } else {
-        
-        // favs = [ ...storeArray, newShow ]
-        newArray = [ ...storeArray, newShow ]
-
+async function sendUpdate(favShow,url) {
+    let options = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(favShow)
     }
-    store.dispatch(addFav(strip(newArray)))
+    
+    const fetching = await fetch(url?url:`http://localhost:4001/update/${favShow._id}`,options)
+    console.log(fetching)
+
 }
 
-function strip(array) {
-    const newArray = array.map(show => {
-        let newSeasons = show.seasons.filter(item => item.episodes.length > 0)
-        return {...show,seasons: newSeasons}
-        
-    })
+async function setFav2(show,season,epi) {    
 
-    return newArray.filter(item => item.seasons.length > 0)
+    // check availability
+    await store.dispatch(fetchFavorites())
+    const allFavs = store.getState().favs.favs
+    console.log(allFavs)
+
+    const checkShow = allFavs.find(item => item._id == show._id)
+    // console.log(checkShow)
+    const checkSeason = checkShow? checkShow.seasons.find(item => item.season == season) : null
+    // console.log(checkSeason)
+    const checkEpi = checkSeason? checkSeason.episodes.find(item => item.title == epi.title) : null
+    // console.log(checkEpi)
+
+    let newSeason = {
+            ...show.seasons.find(item => item.season == season),
+            episodes: [epi]
+        }
+    
+    let favShow = {
+        ...show,
+        seasons: [newSeason]
+    }
+
+    // NO SHOWW
+    if (!checkShow) {
+        sendUpdate(favShow,'http://localhost:4001/newfavorite')
+        console.log('new show')
+    }
+
+    // SHOW AVAILABLE
+        // NO SEASON
+        if (checkShow && !checkSeason) {
+
+            favShow = {
+                ...checkShow,
+                seasons: [...checkShow.seasons,newSeason]
+            }
+            
+            sendUpdate(favShow)
+            console.log('new season')
+        }
+
+        // SEASON AVAILABLE
+            // NO EPISODE
+            if (checkShow && checkSeason && !checkEpi) {
+                favShow = {
+                    ...checkShow,
+                    seasons: [...checkShow.seasons.map((item) => {
+                        if (item.season == season) {
+                            let modSeason = {
+                                ...item,
+                                episodes: [...item.episodes,epi]
+                            }
+                            return modSeason
+        
+                        } else {
+                            return item
+                        }
+                    })]
+                }
+                sendUpdate(favShow)
+                console.log('added episode')
+
+            }
+
+            // EPISODE AVAILABLE
+            if (checkShow && checkSeason && checkEpi) {
+                favShow = {
+                    ...checkShow,
+                    seasons: [...checkShow.seasons.map((item) => {
+                        if (item.season == season) {
+                            let modSeason = {
+                                ...item,
+                                episodes: [...item.episodes.filter(item => item.title != epi.title)]
+                            }
+                            return modSeason
+        
+                        } else {
+                            return item
+                        }
+                    })]
+                }
+                sendUpdate(favShow)
+                console.log('deleted episode')
+
+            }
+    await store.dispatch(fetchFavorites())
+}
+
+// function setFav(storeArray,showObj,si,ei) {
+
+//     let episode = showObj.seasons.filter(item => item.season == si+1)[0].episodes[ei]
+//     let season = {...showObj.seasons.filter(item => item.season == si+1)[0],episodes:[{...episode}]}
+//     let newShow = {...showObj,seasons:[{...season}]}
+//     let show = ''
+//     let newArray = []
+
+//     const bool = storeArray.some(show => show.id == newShow.id)
+
+//     if (bool) {
+//         // map and edit shows
+//         newArray = storeArray.map(favShow => {
+//             if (favShow.id == newShow.id) {
+//                 let s = favShow.seasons.filter(item => item.season == si+1)[0]
+//                 // edit seasons
+//                 if (favShow.seasons.some(item => item.season == season.season)) {
+//                     // edit episodes of season
+//                     if (s.episodes.some(item => item.title == episode.title)) {
+//                         // deleting episode if it exists
+//                         show = favShow
+//                         show = {...favShow,seasons: show.seasons.map(seas => {
+//                             if (seas.season == si+1) {
+//                                 // const news = seas
+//                                 // news.episodes = [...news.episodes.filter(item => item.title != episode.title)]
+
+//                                 return {...seas,episodes:[...seas.episodes.filter(item => item.title != episode.title)]}
+//                             } else {
+//                                 return seas
+//                             }
+//                         })}
+                    
+//                     } else {
+//                         // adding new episode
+//                         show = favShow
+//                         show = {...favShow,seasons: show.seasons.map(seas => {
+//                             if (seas.season == si+1) {
+//                                 const news = seas
+
+//                                 // news.episodes = [...news.episodes,episode]
+//                                 return {...news,episodes:[...news.episodes,episode]}
+//                             } else {
+//                                 return seas
+//                             }
+//                         })}                       
+//                     }
+                    
+//                 } else {
+//                     // show = favShow
+//                     // show.seasons = [...show.seasons,season]
+//                     console.log(show)
+//                     show = {...favShow,seasons:[...show.seasons,season]}
+//                 }
+                
+//                 return show
+//             } else {
+//                 return favShow
+//             }
+//         })
+
+//         // favs = newArray
+
+//     } else {
+        
+//         // favs = [ ...storeArray, newShow ]
+//         newArray = [ ...storeArray, newShow ]
+
+//     }
+//     store.dispatch(addFav(strip(newArray)))
+// }
+
+function strip(show) {
+   
+
 }
 
 function searchArray(array,searchPattern) {
@@ -311,4 +423,4 @@ function sortArray(Array, sort) {
 
 }
 
-export { createPrev,createPrev2, createSeasons,createEpisodes, setFav, searchArray, sortArray }
+export { createPrev,createPrev2, createSeasons,createEpisodes, searchArray, sortArray }

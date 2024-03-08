@@ -1,24 +1,19 @@
-import { useEffect, useState,useCallback } from "react"
+import { useEffect, useState } from "react"
 import { createPrev2, searchArray, sortArray } from "../functions/funcs"
 import Filter from "./Filter"
-import { allFavs } from "../redux/favsSlice";
-import { useSelector } from "react-redux";
+import { allFavs, favsStatus, fetchFavorites } from "../redux/favsSlice";
+import { useSelector,useDispatch } from "react-redux";
 
 function Favorites() {
-    const [ favorites, setFavorites ] = useState([])
-    const stateFavs = useSelector(allFavs)
+    const favs = useSelector(allFavs)
+    const status = useSelector(favsStatus)
+    const dispatch = useDispatch()
     const [sort, setSort] = useState('')
     const [fSearch,setfSearch] = useState('')
 
-    const previewsLoader = useCallback(async function () {
-   
-        console.log(stateFavs)
-        setFavorites(()=> stateFavs)
-      },[stateFavs])
-
     useEffect(() => {
-        previewsLoader()
-    }, []); 
+      dispatch(fetchFavorites())
+    }, [dispatch]); 
 
     function handleSort(text) {  
       console.log(text)  
@@ -28,7 +23,7 @@ function Favorites() {
   return (
     <div className="body-container">
         <Filter setText={setfSearch} setSort={handleSort} />
-        <div className="previews-container">{favorites? createPrev2(searchArray(sortArray(favorites,sort),fSearch)) : <Loader/>}</div>
+        <div className="previews-container">{status == 'fulfilled'? createPrev2(searchArray(sortArray(favs,sort),fSearch)) : 'Loading..'}</div>
     </div>    
   )
 }

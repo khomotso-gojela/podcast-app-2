@@ -2,15 +2,19 @@ import { useState,useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { createSeasons } from '../functions/funcs'
 import { store } from '../main'
+import { useDispatch, useSelector } from 'react-redux'
+import { allFavs, fetchFavorites } from '../redux/favsSlice'
 
 function FavDetails() {
-    const params = useParams()
+    const {id} = useParams()
     const [ show, setShow ] = useState(null)
+    const favs = useSelector(allFavs)
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        const favs = store.getState().favs.favs
-        const favShow = favs.filter(item => item.id == params.id)[0]
-        setShow(favShow)
+        dispatch(fetchFavorites())
+        const favShow = favs.filter(item => item._id == id)[0]
+        setShow(() => favShow)
 
     }, []);
 

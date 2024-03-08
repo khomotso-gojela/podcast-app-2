@@ -2,8 +2,7 @@ import { useRef, useState,useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { store } from '../main'
 import { resetHis } from '../redux/favsSlice'
-import supabase from '../client'
-import { CButton,CModal,CModalHeader,CModalTitle,CModalBody,CModalFooter } from '@coreui/react'
+// import { CButton,CModal,CModalHeader,CModalTitle,CModalBody,CModalFooter } from '@coreui/react'
 import { FaBackward,FaPlayCircle, FaForward, FaHistory, FaTrash } from 'react-icons/fa'
 import { allHistory } from '../redux/favsSlice'
 
@@ -18,19 +17,7 @@ function Player() {
         audioEle.current.currentTime = 0
         playing? audioEle.current.play(): audioEle.current.pause()
 
-        async function editDB() {
-            const { err } = await supabase
-                .from('history')
-                .delete()
-                .neq("id", 0)
-
-            const history = store.getState().favs.history
-
-            const { } = await supabase
-                .from('history')
-                .insert(history.map(obj => ({ hist: obj })));            
-        }
-        playing && editDB()
+        
 
         
     }, [playing]);
@@ -57,24 +44,24 @@ function Player() {
             src='https://podcast-api.netlify.app/placeholder-audio.mp3' 
             ref={audioEle}
         />
-        <CModal
-            visible={visible}
+        <dialog
+            open={visible}
             onClose={() => setVisible(false)}
             aria-labelledby="LiveDemoExampleLabel"
             >
-            <CModalHeader onClose={() => setVisible(false)}>
-                <CModalTitle >History</CModalTitle>
-            </CModalHeader>
-            <CModalBody>
+            <div onClose={() => setVisible(false)}>
+                <h4 >History</h4>
+            </div>
+            <div>
                 <div>{history.map(item => <p key={item}>{item}</p>)}</div>
-            </CModalBody>
-            <CModalFooter>
-                <CButton color="secondary" onClick={() => setVisible(false)}>
+            </div>
+            <div>
+                <button color="secondary" onClick={() => setVisible(false)}>
                 Close
-                </CButton>
+                </button>
           
-            </CModalFooter>
-        </CModal>
+            </div>
+        </dialog>
         <div className='player-container'>
             <div className="controls">
                 <div 

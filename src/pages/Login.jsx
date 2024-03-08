@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import supabase from "../client"
 import { Link } from "react-router-dom";
 
 function LogIn() {
@@ -28,16 +27,7 @@ function LogIn() {
 
     function handleSubmit(e) {
         e.preventDefault()
-        async function signInWithEmail() {
-            const { data, error } = await supabase.auth.signInWithPassword({
-              email: form.email,
-              password: form.password
-            })
-            console.log(data,error)
-            sessionStorage.setItem('token',JSON.stringify(data))
-            location.reload();
-        }
-        signInWithEmail()
+        
     }
 
   return (

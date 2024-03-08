@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import { CCol, CRow } from '@coreui/react'
+// import { CCol, CRow } from '@coreui/react'
 
 function Filter(props) {
     const [search,setSearch] = useState()
@@ -10,8 +10,8 @@ function Filter(props) {
     }
 
   return (
-    <CRow className='filter-container ' >
-        <CCol sm='auto col-3'>
+    <div className='row filter-container container' >
+        <div sm='auto col-3'>
             <form>
                 <input 
                     type="text" 
@@ -23,9 +23,9 @@ function Filter(props) {
                 <br />
                 <br />
             </form>
-        </CCol>
-        <div className='col-6'></div>
-        <CCol  sm='auto' className="sort col-3">
+        </div>
+        
+        <div  sm='auto' className="sort col-3">
             
             <select  name="sorting" id="sorting" onChange={(e) => props.setSort(e.target.value)}>
                 <option value="none">Sort</option>
@@ -34,8 +34,8 @@ function Filter(props) {
                 <option value="oldest">oldest</option>
                 <option value="latest">latest</option>
             </select>
-        </CCol>
-    </CRow>
+        </div>
+    </div>
 )
 }
 

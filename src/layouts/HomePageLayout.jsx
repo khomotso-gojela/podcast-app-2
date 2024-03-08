@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { NavLink, Outlet,Link } from 'react-router-dom'
-import supabase from '../client';
 import Player from '../pages/Player';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,7 +12,7 @@ function HomePageLayout() {
 
     function handleLogOut() {
         sessionStorage.clear()
-        supabase.auth.signOut()
+
         navigate('/')
         location.reload();
 

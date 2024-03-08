@@ -1,12 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { store } from "../main";
+
+console.log('slice ran')
+
+export const fetchFavorites = createAsyncThunk('favs/fetchFavs', async () => {
+    try {
+        const res = await fetch(`http://localhost:4001/favorites`)
+        .then(data => data.json())
+        
+        return res
+    } catch (error) {
+        console.log(error.massage)
+    }
+})
 
 const initialState = {
     favs:[],
+    favsStatus: 'pending', // pending | fulfilled | error
     history: [],
     playing: null,
     lastPlayed: {},
-    token: false
+    
 }
 
 const favsSlice = createSlice({
@@ -25,7 +39,7 @@ const favsSlice = createSlice({
             if (state.history.length > 5) {
                 state.history.shift()
             }
-          
+            
         },
         resetHis: (state) => {
             state.history = []
@@ -34,6 +48,19 @@ const favsSlice = createSlice({
         handleLast: (state,action) => state.lastPlayed = action.payload,
         setTokenOn: (state) => state.token = true,
         setTokenOff: (state) => state.token = false,
+    },
+    extraReducers(builder) {
+        builder.addCase(fetchFavorites.pending, (state) => {
+            state.favsStatus = 'pending'
+        })
+        .addCase(fetchFavorites.fulfilled, (state,action) => {
+            
+            state.favs = action.payload
+            state.favsStatus = 'fulfilled'
+        })
+        .addCase(fetchFavorites.rejected,(state) => {
+            state.favsStatus = 'error'
+        })
     }
 })
 
@@ -41,5 +68,6 @@ export const { addFav, addHis, resetHis, setPlaying,setTokenOff,setTokenOn } = f
 
 export const allFavs = (state) => state.favs.favs
 export const allHistory = (state) => state.favs.history
+export const favsStatus = (state) => state.favs.favsStatus
 
 export default favsSlice.reducer

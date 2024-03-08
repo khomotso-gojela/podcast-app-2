@@ -20,6 +20,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 /* HomeLayout */
@@ -49,7 +50,7 @@ body {
   grid-template-rows: 1fr;
   grid-template-areas:
   'logo space links';
-  padding: 0 30px;
+  padding: 0 2rem;
 }
 
 .logo {
@@ -68,7 +69,6 @@ body {
 .links {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-area: 'links';
 
 }
 
@@ -77,9 +77,6 @@ link {
 }
 
 a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   text-decoration: none;
   color: whitesmoke;
 }
@@ -93,11 +90,30 @@ a {
   background-color: rgba(255, 0, 0, 0.5);
 }
 
-  /* Body */
+/* Body */
+.carousel-div {
+  width: 30em;
+  margin: 20px auto
+}
+
+.filter-container {
+  /* margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 0 2rem; */
+}
+
+input, select {
+  background-color: rgba(128, 128, 128, 0.459);
+  border-radius: 0.5rem;
+  color: gray;
+}
+
 
   /* SHOWMORE BUTTON */
   .showmore {
-    background-color: black;
+    background-color: rgba(128, 128, 128, 0.479);
     color: white;
     border-radius: .5rem;
     padding: 10px;
@@ -105,64 +121,69 @@ a {
 
   }
   
-  .hp-body {
-    color: rgba(245, 245, 245, 0.842);
-    grid-area: 'homeBody';
-    overflow: auto;
-    background: radial-gradient(rgb(114, 2, 2),black);
-  }
+.hp-body {
+  padding: 100px;
+  overflow: auto;
+  background: radial-gradient(rgb(114, 2, 2),black);
+}
 .hp-body::-webkit-scrollbar {
   width: 0;
 }
 
 .previews-container {
-  width: 100%;
-  gap: 20px;
-  align-items: center;
+  padding: 0 2rem;
+  /* display: grid;
+  grid-template-columns: repeat(3,auto);
+  row-gap: 20px;
+  column-gap: 20px; */
+  
 }
 
 .body-container {
-  padding: 0 30px;
+  /* padding: 0 30px; */
 }
 
 .prev-card {
+  /* padding: 0 1rem; */
   color: white;
-  max-width: fit-content;
-  border: 1px solid rgb(255, 255, 255);
-  border-radius: 0.5rem;
-  background-color: transparent;
+  max-width: 17em;
+  max-height: 20em;
+  background-color: rgba(128, 128, 128, 0.425);
+  overflow: hidden;
 }
 .prev-card a .inner-card {
   background-color: transparent;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  overflow: hidden;
+
 }
 .prev-card a {
   color: white;
 }
-.prev-card a .inner-card div:nth-child(2) {
-padding: 10px;
-}
+
 .card-image {
   margin-top: 10px;
-  width: fit-content;
+  width: 100px;
 }
 .card-image img {
   border-radius: 0.5rem;
-  width: 14rem;
 }
 
 .card-body {
   font-size: 1rem;
   color:whitesmoke;
-  text-align: center;
+  text-align: left;
 }
+
 .card-body p {
   font-size: 0.7rem;
   color:whitesmoke;
-  text-align: center;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* season details */
@@ -229,17 +250,6 @@ padding: 10px;
   align-items: center;
   justify-content: center;
   margin-top: 30%;
-}
-
-.row {
-  padding: 0;
-  padding-left: 0;
-  padding-right: 0;
-}
-.row>* {
-  padding: 0;
-  padding-left: 0;
-  padding-right: 0;
 }
 
 /* Episode details */
@@ -343,20 +353,6 @@ padding: 10px;
   --cui-btn-disabled-border-color: #321fdb;
 }
 
-input {
-  background-color: rgb(170, 0, 0);
-  border-radius: 0.5rem;
-}
-input::placeholder {
-  color: whitesmoke;
-}
-
-select {
-  color: whitesmoke;
-  background-color: rgb(170, 0, 0);
-  border-radius: 0.5rem;
-}
-
 .modal-content {
   position: fixed;
   bottom: 20px;
@@ -395,9 +391,7 @@ select {
 
 .login-btn {
   margin-bottom: 1rem;
-  --cui-btn-bg:black;
-  --cui-btn-color:white;
-  --cui-btn-border-color:white
+
 }
 
 .login-form input{
@@ -412,8 +406,4 @@ select {
 
 .login-form div > a:hover {
   color: rgb(255, 113, 113);
-}
-
-.filter-container {
-  margin-top: 2rem
 }

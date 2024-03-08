@@ -1,16 +1,16 @@
 import { useState,useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { createSeasons,setFav } from '../functions/funcs'
-import Loader from '../components.jsx/loader'
+import { createSeasons } from '../functions/funcs'
 
 function PrevDetails() {
-    const params = useParams()
+    const {id} = useParams()
     const [ show, setShow] = useState(null)
 
     useEffect(() => {
         async function fetchData() {
             try {
-                fetch(`https://podcast-api.netlify.app/id/${params.id}`)
+                // fetch(`https://podcast-api.netlify.app/id/${parseInt(params.id)}`)
+                fetch(`http://localhost:4001/show/${id}`)
                     .then(data => data.json())
                     .then(data => {
                     
