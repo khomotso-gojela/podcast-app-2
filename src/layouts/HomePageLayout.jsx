@@ -35,7 +35,7 @@ function HomePageLayout() {
     } 
 
   return (
-    <div className='flex flex-col h-full w-screen'>
+    <div className='flex flex-col h-full w-screen overflow-hidden'>
 
         <div className="hp-body overflow-y-scroll my-16">
             <Outlet />
