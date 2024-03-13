@@ -2,7 +2,6 @@ import { useRef, useState,useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { store } from '../main'
 import { resetHis } from '../redux/favsSlice'
-// import { CButton,CModal,CModalHeader,CModalTitle,CModalBody,CModalFooter } from '@coreui/react'
 import { FaBackward,FaPlayCircle, FaForward, FaHistory, FaTrash } from 'react-icons/fa'
 import { allHistory } from '../redux/favsSlice'
 
@@ -38,11 +37,12 @@ function Player() {
     }
 
   return (
-    <>
+    <div className=' h-full'>
         <audio 
             onTimeUpdate={(e) => handlePlay(e)} 
             src='https://podcast-api.netlify.app/placeholder-audio.mp3' 
             ref={audioEle}
+            className='hidden'
         />
         <dialog
             open={visible}
@@ -62,32 +62,43 @@ function Player() {
           
             </div>
         </dialog>
-        <div className='player-container'>
-            <div className="controls">
-                <div 
-                onClick={() => {
-                    store.dispatch(resetHis())
-                    handleReset()
-                }} 
-                className='history-btn'><FaTrash/></div>
-                <div className="history-btn" onClick={() => setVisible(!visible)}><FaHistory/></div>
-                <div className="back-btn"><FaBackward/></div>
-                <div className="play-btn" onClick={handlePro}><FaPlayCircle/></div>
-                <div className="next-btn"><FaForward/></div>
-                <div className="song-name">{playing}</div>
+
+        <div className='grid grid-rows-2 items-center bg-red-100 shadow-lg h-full'>
+            <div className="flex text-red-900">
+                <div className='w-6/12 flex justify-center items-end'>
+                    <div 
+                        onClick={() => {
+                            store.dispatch(resetHis())
+                            handleReset()
+                        }} 
+                        className='p-btn'>
+                            <FaTrash/>
+                    </div>
+                    <div className="p-btn"><FaBackward/></div>
+                    <div className="p-btn" onClick={handlePro}><FaPlayCircle/></div>
+                    <div className="p-btn"><FaForward/></div>
+                    <div className="p-btn" onClick={() => setVisible(!visible)}><FaHistory/></div>
+
+                </div>
+              
+                <div className='w-6/12'>
+                    <div className="w-8">{playing}</div>
+
+                </div>
+                
             </div>
             
             
-            <div className="reset-btn">
-                <div className="progress" onClick={(e) => handlePro(e)}>
-                    <div className="p-bar" style={{'--progressbar':`${time}%`}}></div>
+            <div className="">
+                <div className=" bg-gray-100 border border-red-950 h-2 rounded-md w-2/3 mx-auto" onClick={(e) => handlePro(e)}>
+                    <div className="bg-red-700 h-full transition-all" style={{width:`${time}%`}}></div>
                 </div>
             </div>
             
         </div>
         
 
-    </>
+    </div>
   )
 }
 

@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink, Outlet,Link } from 'react-router-dom'
 import Player from '../pages/Player';
 import { useNavigate } from 'react-router-dom';
+import { FiAlignRight, FiX } from 'react-icons/fi';
 
 function HomePageLayout() {
     const navigate = useNavigate()
+    const [menu,setMenu] = useState('-right-48')
 
     useEffect(() => {
     
@@ -18,43 +20,65 @@ function HomePageLayout() {
 
     }
 
+    function toggleMenu() {
+        
+        menu == 'right-0'? setMenu('-right-48') : setMenu('right-0')
+    } 
+
   return (
-    <div className='home'>
-        <div className="hp-nav">
-            <div className="logo">
-                <h3>MoCasts</h3>
-            </div>
-            <div className="space"></div>
+    <div className='flex flex-col h-screen w-screen overflow-hidden'>
 
-            <div className="row links">
-                
-                <NavLink className='col' to={'/'}>                    
-                    <div className="link">
-                        <div className="a">All
-                        </div>
-                    </div>
-                </NavLink>
-                <NavLink className='col' to={'favorites'}>
-                    <div className="link">
-                        <div className="a">Favorites
-                        </div>
-                    </div>
-                </NavLink>
-                <Link onClick={handleLogOut} className='col' >
-                    <div className="link">
-                        <div className="a">Log out
-                        </div>
-                    </div>
-                </Link>
-            </div>
-
-        </div>
-        <div className="hp-body">
+        <div className="hp-body overflow-y-scroll my-16">
             <Outlet />
         </div>
-        <div className="hp-player">
+        <nav className="hp-nav bg-red-100 flex justify-between items-end py-4 px-8 sm:px-20 shadow-md absolute w-full">
+            <div className="">
+                <h1 className="text-red-700 text-xl sm:text-2xl font-bold">MoCasts</h1>
+            </div>
+
+            <div className="hidden sm:block flex font-bold justify-end text-red-700">                
+                <NavLink className='col' to={'/'}>
+                    All
+                </NavLink>
+                <NavLink className='ml-4' to={'favorites'}>
+                    Favorites
+                </NavLink>
+                <Link onClick={handleLogOut} className='ml-4' >
+                    Log In
+                </Link>
+            </div>
+            <div className='text-gray-500 sm:hidden cursor-pointer' 
+                onClick={toggleMenu}
+            >
+                <FiAlignRight size={24} />
+            </div>
+
+        </nav>
+        <div className="h-16 hp-player absolute w-full bottom-0">
             <Player />
         </div>
+        
+        <div 
+            className={`absolute flex flex-col font-bold items-end bg-red-300 text-red-100 w-36 h-full pt-5 pr-8
+                        ${menu} transition-all shadow-2xl`}
+        >      
+            <div className='text-gray-500 cursor-pointer '
+                onClick={toggleMenu}
+            >
+                <FiX size={24} />
+            </div>          
+            <div className='border border-red-700 w-4/5 mx-auto my-3'></div>
+            <NavLink className='mt-2' to={'/'}>
+                All
+            </NavLink>
+            <NavLink className='mt-2' to={'favorites'}>
+                Favorites
+            </NavLink>
+            <Link onClick={handleLogOut} className='mt-2'>
+                Log In
+            </Link>
+        </div>
+        
     </div>
   )
 }

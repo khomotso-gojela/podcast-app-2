@@ -17,28 +17,35 @@ function createPrev(array) {
             newprev = prev
         }
 
-        return (
+        return (       
+            <NavLink key={newprev._id} to={newprev._id} 
+                className=' overflow-hidden bg-gray-200 rounded-md'
             
-            <div className='col s=3 prev-card' key={newprev._id}>
-                <NavLink to={newprev._id} > 
-                    <div className="inner-card" >
-                        <div className="card-image" >
-                            <img  className="preview-image" width={'50%'} orientation="top" src={newprev.image } />
-                        </div>
-                        <div className="card-body">
-                            <div><b>{newprev.title}</b></div>
-                            <p>
+            > 
+                <div className="flex p-4" >
+                    <div className="w-3/12" >
+                        <img  className="w-full" 
+                            src={newprev.image } />
+                    </div>
+                    <div className="text-gray-500 w-9/12">
+                        <div className="ml-4">
+                            <h2 className="text-red-400 font-bold">
+                                {newprev.title}
+                            </h2>
+                            <p className="text-sm mt-2">
                                 Seasons: {newprev.seasons}                        
-                                <br/>
-                                Last updated: {new Date(newprev.updated).toUTCString()}                            
-                                <br />
+                            </p>
+                            <p className="text-sm">
+                                {new Date(newprev.updated).toUTCString().slice(4,16)}                            
+                            </p>
+                            <p className=" opacity-50 text-sm">
                                 {createGenres(newprev.genres)}
                             </p>
                         </div>
+                        
                     </div>
-                </NavLink>
-                
-            </div>
+                </div>
+            </NavLink>
         )
             
     }) : []
@@ -54,9 +61,9 @@ function createPrev2(array) {
 
         return (
             
-            <div className='col prev-card' key={prev._id}>
+            <div className='' key={prev._id}>
                 <NavLink to={prev._id} > 
-                    <div className="inner-card" >
+                    <div className="" >
                         <div className="card-image" >
                             <img  className="preview-image" width={'50%'} orientation="top" src={/*prev.image*/ phimage} />
                         </div>

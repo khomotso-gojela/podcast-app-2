@@ -9,8 +9,7 @@ function PrevDetails() {
     useEffect(() => {
         async function fetchData() {
             try {
-                // fetch(`https://podcast-api.netlify.app/id/${parseInt(params.id)}`)
-                fetch(`http://localhost:4001/show/${id}`)
+                fetch(`https://podcast-api.netlify.app/id/${parseInt(params.id)}`)
                     .then(data => data.json())
                     .then(data => {
                     
