@@ -7,6 +7,7 @@ import { FiAlignRight, FiX } from 'react-icons/fi';
 function HomePageLayout() {
     const navigate = useNavigate()
     const [menu,setMenu] = useState('-right-48')
+    const [hide,setHide] = useState('hidden')
 
     useEffect(() => {
     
@@ -22,7 +23,15 @@ function HomePageLayout() {
 
     function toggleMenu() {
         
-        menu == 'right-0'? setMenu('-right-48') : setMenu('right-0')
+        if (menu == 'right-0') {
+            setMenu('-right-48')
+            setTimeout(()=>{
+                setHide('hidden')
+            },500)
+        } else {
+            setHide('block')
+            setMenu('right-0')
+        }
     } 
 
   return (
@@ -60,7 +69,7 @@ function HomePageLayout() {
         
         <div 
             className={`absolute flex flex-col font-bold items-end bg-red-300 text-red-100 w-36 h-full pt-5 pr-8
-                        ${menu} transition-all shadow-2xl`}
+                        ${menu} ${hide} transition-all shadow-2xl`}
         >      
             <div className='text-gray-500 cursor-pointer '
                 onClick={toggleMenu}
