@@ -35,14 +35,14 @@ function HomePageLayout() {
     } 
 
   return (
-    <div className='flex flex-col h-screen w-screen overflow-hidden'>
+    <div className='flex flex-col h-full w-screen overflow-hidden'>
 
         <div className="hp-body overflow-y-scroll my-16">
             <Outlet />
         </div>
         <nav className="hp-nav bg-red-100 flex justify-between items-end py-4 px-8 sm:px-20 shadow-md absolute w-full">
             <div className="">
-                <h1 className="text-red-700 text-xl sm:text-2xl font-bold">MoCasts</h1>
+                <h1 className="text-red-700 text-xl sm:text-2xl font-bold">MoCast</h1>
             </div>
 
             <div className="hidden sm:block flex font-bold justify-end text-red-700">                
