@@ -63,7 +63,7 @@ function Player() {
             </div>
         </dialog>
 
-        <div className='grid grid-rows-2 items-center bg-red-100 shadow-lg h-full'>
+        <div className='grid grid-rows-2 items-center bg-red-100 h-full'>
             <div className="flex text-red-900">
                 <div className='w-6/12 flex justify-center items-end'>
                     <div 
