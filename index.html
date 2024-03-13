@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="overflow-hidden" lang="en">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
@@ -7,8 +7,38 @@
 
     <title>MoCasts</title>
   </head>
-  <body class="bg-gray-100">
-    <div id="root"></div>
+  <body class="bg-gray-100 h-screen">
+    <div class="overflow-hidden" id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      let startY;
+      let isTouching = false;
+
+      document.getElementById('root').addEventListener('touchstart', function(e) {
+          if (e.touches.length === 1) {
+              startY = e.touches[0].clientY;
+              isTouching = true;
+          }
+      });
+
+      document.getElementById('root').addEventListener('touchmove', function(e) {
+          if (!isTouching) return;
+          let deltaY = e.touches[0].clientY - startY;
+          if (deltaY > 0 && window.scrollY === 0) {
+              e.preventDefault();
+          }
+      });
+
+      document.getElementById('root').addEventListener('touchend', function(e) {
+          if (!isTouching) return;
+          let deltaY = e.changedTouches[0].clientY - startY;
+          if (deltaY > 100) {
+              // Perform your refresh action here
+              
+              location.reload(); // For example, reload the page
+          }
+          isTouching = false;
+      });
+  </script>
   </body>
 </html>
