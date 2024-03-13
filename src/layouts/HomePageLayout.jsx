@@ -35,12 +35,13 @@ function HomePageLayout() {
     } 
 
   return (
-    <div className='flex flex-col h-full w-screen overflow-hidden'>
+    <div className='flex flex-col h-full w-screen '>
 
-        <div className="hp-body overflow-y-scroll my-16">
+        <div className="hp-body overflow-y-scroll my-16" style={{minHeight: 'calc(100vh - 4rem)'}}>
             <Outlet />
         </div>
-        <nav className="hp-nav bg-red-100 flex justify-between items-end py-4 px-8 sm:px-20 shadow-md absolute w-full">
+
+        <nav className="hp-nav bg-red-100 flex justify-between items-end py-4 px-8 sm:px-20 shadow-md fixed w-full">
             <div className="">
                 <h1 className="text-red-700 text-xl sm:text-2xl font-bold">MoCast</h1>
             </div>
@@ -63,7 +64,7 @@ function HomePageLayout() {
             </div>
 
         </nav>
-        <div className="h-16 hp-player absolute w-full bottom-0">
+        <div className="h-16 hp-player fixed w-full bottom-0">
             <Player />
         </div>
         
