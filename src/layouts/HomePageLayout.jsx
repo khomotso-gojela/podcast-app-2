@@ -64,12 +64,12 @@ function HomePageLayout() {
             </div>
 
         </nav>
-        <div className="h-16 hp-player fixed w-full bottom-0">
+        <div className="h-16 fixed w-full bottom-0">
             <Player />
         </div>
         
         <div 
-            className={`absolute flex flex-col font-bold items-end bg-red-300 text-red-100 w-36 h-full pt-5 pr-8
+            className={`fixed flex flex-col font-bold items-end bg-red-300 text-red-100 w-36 h-full pt-5 pr-8
                         ${menu} ${hide} transition-all shadow-2xl`}
         >      
             <div className='text-gray-500 cursor-pointer '

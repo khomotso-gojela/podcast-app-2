@@ -16,12 +16,14 @@ function createPrev(array) {
         } else {
             newprev = prev
         }
+        console.log(newprev.id)
 
         return (       
-            <NavLink key={newprev._id} to={newprev._id} 
+            <NavLink to={`${newprev.id}`} key={newprev.id} 
                 className=' overflow-hidden bg-gray-200 rounded-md'
             
             > 
+
                 <div className="flex p-4" >
                     <div className="w-3/12" >
                         <img  className="w-full" 
@@ -114,17 +116,24 @@ function createSeasons(array) {
 
     const seasons = array? array.map((season,index) => {
         return (
-            <div key={index} className="season-block">
-                <NavLink to={`${season.season}`}>
-                    <div className="season-image">
-                        <img loading="lazy" src={/*season.image*/ phimage} alt={'season cover'} />
+            <NavLink 
+                className='bg-gray-200 rounded-md w-fit'
+                key={index} to={`${season.season}`}>
+
+                <div className=" max-w-sm mx-auto sm:mx-0 sm:w-5/12 flex p-4 mb-4 bg-gray-300 rounded-md">
+
+                    <div className=" flex justify-center season-image w-4/12">
+                        <img className="h-12 w-12" loading="lazy" src={season.image} alt={'season cover'} />
                     </div>
-                    <div className="season-text">
-                        <h5>{season.title}</h5>
-                        <h5>Episodes: {season.episodes.length}</h5>
+
+                    <div className="flex justify-start items-center text-gray-500 w-8/12">
+                        <h2 className="text-red-400 font-bold border-r px-2 inline-block border-slate-400 mx-2">{season.title}</h2>
+                        <p className="text-sm">{season.episodes.length}</p>
                     </div>
-                </NavLink>
-            </div>
+
+                </div>
+            </NavLink>
+          
         )
     }): []
 

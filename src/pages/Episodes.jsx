@@ -36,8 +36,8 @@ function Episodes() {
     return (
    
     <>
-        {show? createEpisodes(show,season,show.seasons.find(item => item.season == season).episodes):
-         <Loader/>
+        {show? createEpisodes(show,season,show.seasons.find(item => item.season == season).episodes):''
+        //  <Loader/>
          }
     </>
   
