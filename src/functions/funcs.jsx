@@ -16,7 +16,6 @@ function createPrev(array) {
         } else {
             newprev = prev
         }
-        console.log(newprev.id)
 
         return (       
             <NavLink to={`${newprev.id}`} key={newprev.id} 
@@ -117,10 +116,10 @@ function createSeasons(array) {
     const seasons = array? array.map((season,index) => {
         return (
             <NavLink 
-                className='bg-gray-200 rounded-md w-fit'
+                className='bg-gray-200 rounded-md w-full'
                 key={index} to={`${season.season}`}>
 
-                <div className=" max-w-sm mx-auto sm:mx-0 sm:w-5/12 flex p-4 mb-4 bg-gray-300 rounded-md">
+                <div className="mx-auto sm:mx-0 flex p-4 mb-4 bg-gray-300 rounded-md">
 
                     <div className=" flex justify-center season-image w-4/12">
                         <img className="h-12 w-12" loading="lazy" src={season.image} alt={'season cover'} />
@@ -155,14 +154,15 @@ function createEpisodes(show,season,array) {
 
     const episodes = array? array.map((epi,index) => {
         return (
-            <div key={index} className="episode-block">
-                <div style={{cursor:'pointer'}} className="play" onClick={() => play(epi)}>
+            <div key={index} className="flex bg-gray-300 mb-4 py-2 px-5 items-center justify-between rounded-md w-12/12 sm:w-7/12">
+                <div style={{cursor:'pointer'}} className="text-gray-700" onClick={() => play(epi)}>
                     <FaPlay/>
                 </div>
-                <div className="episode-title">
+                <div className="ml-4 text-sm text-gray-700">
                     {epi.title}
                 </div>
-                <div style={{cursor:'pointer'}} className="fav-episode" onClick={() => {
+                <div style={{cursor:'pointer'}} 
+                    className="ml-4" onClick={() => {
                     // setFav(store.getState().favs.favs,show,season,index)
                     setFav2(show,season,epi)
                     }}>
