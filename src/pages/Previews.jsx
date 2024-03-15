@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { createPrev } from "../functions/funcs"  
 import Filter from "./Filter";
 import { searchArray, sortArray } from "../functions/funcs";
-import Couresal from "../components/couresal";
+import Carousel from "../components/Carousel";
   
 function Previews() {
   const [ allPreviews, setAllPreviews ] = useState([])
@@ -10,12 +10,14 @@ function Previews() {
   const [sort, setSort] = useState('')
   const [fSearch,setfSearch] = useState('')
   const [page,setPage] = useState(1)
+  const [featuredShows,setFeaturedShows] = useState([]) // shows that have the 'featured' genre for carousel use.
 
   useEffect(() => {
     const res = fetch('https://podcast-api.netlify.app/shows')
       .then(data => data.json())
       .then(data => {
         console.log(data.length)
+        setFeaturedShows(data.filter(item => item.genres.some(gen => gen == 1)))
         setPreviewsObjs(data)
       })      
 
@@ -40,7 +42,7 @@ function Previews() {
     
   return (
     <div className="">
-      <Couresal/>
+      {/* <Carousel content={featuredShows}/> */}
       
       <Filter setText={setfSearch} setSort={handleSort} />
       
