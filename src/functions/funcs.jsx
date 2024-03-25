@@ -220,9 +220,9 @@ async function setFav2(show,season,epi) {
         seasons: [newSeason]
     }
 
-    // NO SHOWW
+    // NO SHOW
     if (!checkShow) {
-        sendUpdate(favShow,'http://localhost:4001/newfavorite')
+        sendUpdate(favShow,'https://podcast-app2-backend.onrender.com/newfavorite')
         console.log('new show')
     }
 
@@ -286,76 +286,76 @@ async function setFav2(show,season,epi) {
     await store.dispatch(fetchFavorites())
 }
 
-// function setFav(storeArray,showObj,si,ei) {
+function setFav(storeArray,showObj,si,ei) {
 
-//     let episode = showObj.seasons.filter(item => item.season == si+1)[0].episodes[ei]
-//     let season = {...showObj.seasons.filter(item => item.season == si+1)[0],episodes:[{...episode}]}
-//     let newShow = {...showObj,seasons:[{...season}]}
-//     let show = ''
-//     let newArray = []
+    let episode = showObj.seasons.filter(item => item.season == si+1)[0].episodes[ei]
+    let season = {...showObj.seasons.filter(item => item.season == si+1)[0],episodes:[{...episode}]}
+    let newShow = {...showObj,seasons:[{...season}]}
+    let show = ''
+    let newArray = []
 
-//     const bool = storeArray.some(show => show.id == newShow.id)
+    const bool = storeArray.some(show => show.id == newShow.id)
 
-//     if (bool) {
-//         // map and edit shows
-//         newArray = storeArray.map(favShow => {
-//             if (favShow.id == newShow.id) {
-//                 let s = favShow.seasons.filter(item => item.season == si+1)[0]
-//                 // edit seasons
-//                 if (favShow.seasons.some(item => item.season == season.season)) {
-//                     // edit episodes of season
-//                     if (s.episodes.some(item => item.title == episode.title)) {
-//                         // deleting episode if it exists
-//                         show = favShow
-//                         show = {...favShow,seasons: show.seasons.map(seas => {
-//                             if (seas.season == si+1) {
-//                                 // const news = seas
-//                                 // news.episodes = [...news.episodes.filter(item => item.title != episode.title)]
+    if (bool) {
+        // map and edit shows
+        newArray = storeArray.map(favShow => {
+            if (favShow.id == newShow.id) {
+                let s = favShow.seasons.filter(item => item.season == si+1)[0]
+                // edit seasons
+                if (favShow.seasons.some(item => item.season == season.season)) {
+                    // edit episodes of season
+                    if (s.episodes.some(item => item.title == episode.title)) {
+                        // deleting episode if it exists
+                        show = favShow
+                        show = {...favShow,seasons: show.seasons.map(seas => {
+                            if (seas.season == si+1) {
+                                // const news = seas
+                                // news.episodes = [...news.episodes.filter(item => item.title != episode.title)]
 
-//                                 return {...seas,episodes:[...seas.episodes.filter(item => item.title != episode.title)]}
-//                             } else {
-//                                 return seas
-//                             }
-//                         })}
+                                return {...seas,episodes:[...seas.episodes.filter(item => item.title != episode.title)]}
+                            } else {
+                                return seas
+                            }
+                        })}
                     
-//                     } else {
-//                         // adding new episode
-//                         show = favShow
-//                         show = {...favShow,seasons: show.seasons.map(seas => {
-//                             if (seas.season == si+1) {
-//                                 const news = seas
+                    } else {
+                        // adding new episode
+                        show = favShow
+                        show = {...favShow,seasons: show.seasons.map(seas => {
+                            if (seas.season == si+1) {
+                                const news = seas
 
-//                                 // news.episodes = [...news.episodes,episode]
-//                                 return {...news,episodes:[...news.episodes,episode]}
-//                             } else {
-//                                 return seas
-//                             }
-//                         })}                       
-//                     }
+                                // news.episodes = [...news.episodes,episode]
+                                return {...news,episodes:[...news.episodes,episode]}
+                            } else {
+                                return seas
+                            }
+                        })}                       
+                    }
                     
-//                 } else {
-//                     // show = favShow
-//                     // show.seasons = [...show.seasons,season]
-//                     console.log(show)
-//                     show = {...favShow,seasons:[...show.seasons,season]}
-//                 }
+                } else {
+                    // show = favShow
+                    // show.seasons = [...show.seasons,season]
+                    console.log(show)
+                    show = {...favShow,seasons:[...show.seasons,season]}
+                }
                 
-//                 return show
-//             } else {
-//                 return favShow
-//             }
-//         })
+                return show
+            } else {
+                return favShow
+            }
+        })
 
-//         // favs = newArray
+        // favs = newArray
 
-//     } else {
+    } else {
         
-//         // favs = [ ...storeArray, newShow ]
-//         newArray = [ ...storeArray, newShow ]
+        // favs = [ ...storeArray, newShow ]
+        newArray = [ ...storeArray, newShow ]
 
-//     }
-//     store.dispatch(addFav(strip(newArray)))
-// }
+    }
+    store.dispatch(addFav(strip(newArray)))
+}
 
 function strip(show) {
    
